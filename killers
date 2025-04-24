@@ -97,4 +97,57 @@ INSERT INTO methods (method_id, killer_id, method_name) VALUES
 (2, 33, 'Coup de couteau'),
 (1, 34, 'Strangulation');
 
+CREATE TABLE locations (
+    location_id INT,
+    killer_id INT,
+    poor_rate_of_the_country DECIMAL(5,2),
+    crime_rate DECIMAL(5,2),
+    legal_gun_ownership BOOLEAN,
+    country TEXT,
+    city TEXT,
+    PRIMARY KEY (location_id, killer_id),
+    FOREIGN KEY (killer_id) REFERENCES serial_killers(killer_id)
+);
 
+-- Insertion des données pour les localisations
+-- Location_id uniformisé par pays:
+-- 1: Colombie, 2: Pakistan, 3: Russie, 4: Brésil, 5: Inde, 6: Chine, 
+-- 7: États-Unis, 8: Italie, 9: Ukraine, 10: Canada, 11: Indonésie,
+-- 12: Afrique du Sud, 13: Biélorussie, 14: Maroc, 15: Roumanie, 16: Iran,
+-- 17: Mexique, 18: Égypte
+
+INSERT INTO locations (location_id, killer_id, poor_rate_of_the_country, crime_rate, legal_gun_ownership, country, city) VALUES
+(1, 1, 27.0, 26.2, FALSE, 'Colombie', 'Pereira'),
+(1, 2, 27.0, 26.2, FALSE, 'Colombie', 'Bogotá'),
+(2, 3, 24.3, 3.8, FALSE, 'Pakistan', 'Lahore'),
+(3, 4, 12.6, 8.2, TRUE, 'Russie', 'Angarsk'),
+(1, 5, 27.0, 26.2, FALSE, 'Colombie', 'Bogotá'),
+(4, 6, 4.2, 27.4, TRUE, 'Brésil', 'Santa Rita do Sapucaí'),
+(5, 7, 21.9, 3.1, FALSE, 'Inde', 'Jaipur'),
+(6, 8, 0.6, 0.7, FALSE, 'Chine', 'Zhumadian'),
+(7, 9, 11.8, 5.0, TRUE, 'États-Unis', 'Divers états'),
+(8, 10, 20.3, 6.2, FALSE, 'Italie', 'Sicile'),
+(3, 11, 12.6, 8.2, TRUE, 'Russie', 'Rostov-sur-le-Don'),
+(9, 12, 1.1, 6.3, FALSE, 'Ukraine', 'Divers endroits'),
+(3, 13, 12.6, 8.2, TRUE, 'Russie', 'Saint-Pétersbourg'),
+(4, 14, 4.2, 27.4, TRUE, 'Brésil', 'São Paulo'),
+(10, 15, 5.9, 1.8, FALSE, 'Canada', 'Port Coquitlam'),
+(7, 16, 11.8, 5.0, TRUE, 'États-Unis', 'Seattle'),
+(3, 17, 12.6, 8.2, TRUE, 'Russie', 'Moscou'),
+(6, 18, 0.6, 0.7, FALSE, 'Chine', 'Divers endroits'),
+(11, 19, 9.4, 4.4, FALSE, 'Indonésie', 'Medan'),
+(5, 20, 21.9, 3.1, FALSE, 'Inde', 'Mumbai'),
+(4, 21, 4.2, 27.4, TRUE, 'Brésil', 'Goiânia'),
+(12, 22, 55.5, 33.1, TRUE, 'Afrique du Sud', 'Johannesburg'),
+(9, 23, 1.1, 6.3, FALSE, 'Ukraine', 'Divers endroits'),
+(13, 24, 5.7, 2.1, FALSE, 'Biélorussie', 'Vitebsk'),
+(14, 25, 4.8, 1.4, FALSE, 'Maroc', 'Marrakech'),
+(15, 26, 10.8, 1.5, FALSE, 'Roumanie', 'Berkerekul'),
+(7, 27, 11.8, 5.0, TRUE, 'États-Unis', 'Divers états'),
+(7, 28, 11.8, 5.0, TRUE, 'États-Unis', 'Louisiane'),
+(7, 29, 11.8, 5.0, TRUE, 'États-Unis', 'Chicago'),
+(16, 30, 8.0, 2.5, FALSE, 'Iran', 'Téhéran'),
+(3, 31, 12.6, 8.2, TRUE, 'Russie', 'Moscou'),
+(17, 32, 41.9, 28.7, FALSE, 'Mexique', 'Mexico'),
+(18, 33, 32.5, 2.3, FALSE, 'Égypte', 'Le Caire'),
+(3, 34, 12.6, 8.2, TRUE, 'Russie', 'Kazan');
