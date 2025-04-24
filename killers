@@ -52,3 +52,49 @@ INSERT INTO serial_killers VALUES
 (34, 'Radik Tagirov', 2011, 2012, '2011–2012', 32, '32', 'Russia', 1989, 'Schizoid Personality Disorder', 'Life imprisonment', 'Killed elderly women across Russian regions.');
 
 
+CREATE TABLE methods (
+    method_id INT,
+    killer_id INTEGER,
+    method_name TEXT,
+    PRIMARY KEY (method_id, killer_id),
+    FOREIGN KEY (killer_id) REFERENCES serial_killers(killer_id)
+);
+
+-- Insertion des données pour les méthodes de meurtre
+INSERT INTO methods (method_id, killer_id, method_name) VALUES
+(5, 1, 'Torture'),
+(1, 2, 'Strangulation'),
+(1, 3, 'Strangulation'),
+(6, 4, 'Coup de hache'),
+(8, 5, 'Viol et strangulation'),
+(2, 6, 'Arme blanche'),
+(3, 7, 'Coup de marteau'),
+(2, 8, 'Arme blanche'),
+(1, 9, 'Strangulation'),
+(4, 10, 'Arme à feu'),
+(2, 11, 'Poignard'),
+(4, 12, 'Arme à feu'),
+(7, 13, 'Empoisonnement'),
+(4, 14, 'Exécution'),
+(1, 15, 'Strangulation'),
+(1, 16, 'Strangulation'),
+(3, 17, 'Coup contondant'),
+(1, 18, 'Strangulation'),
+(1, 19, 'Strangulation'),
+(3, 20, 'Coup contondant'),
+(4, 21, 'Arme à feu'),
+(8, 22, 'Viol et strangulation'),
+(1, 23, 'Strangulation'),
+(1, 24, 'Strangulation'),
+(6, 25, 'Coup de hache'),
+(7, 26, 'Empoisonnement'),
+(3, 27, 'Coup contondant'),
+(6, 28, 'Coup de hache'),
+(1, 29, 'Strangulation'),
+(2, 30, 'Poignard'),
+(6, 31, 'Coup de hache'),
+(2, 32, 'Arme blanche'),
+(2, 33, 'Coup de couteau'),
+(1, 34, 'Strangulation');
+
+
