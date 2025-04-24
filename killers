@@ -1,0 +1,54 @@
+-- Création de la table
+CREATE TABLE serial_killers (
+    killer_id INTEGER PRIMARY KEY,
+    name TEXT NOT NULL,
+    start_year INTEGER,
+    end_year INTEGER,
+    years_active TEXT,
+    proven_victims INTEGER,
+    possible_victims TEXT,
+    country TEXT,
+    birth_year INTEGER,
+    mental_health_diagnosis TEXT,
+    status TEXT,
+    keywords TEXT
+);
+
+-- Insertion des données
+INSERT INTO serial_killers VALUES
+(1, 'Luis Garavito', 1992, 1999, '1992 to 1999', 138, '172–300+', 'Colombie', 1957, 'Trouble de la personnalité antisociale', 'Emprisonné (libérable en 2023)', 'Child-murderer, Torture-killer, Rapist, Nickname: La Bestia, Confessed, Street children, Sentenced: 1853 years, Parole eligible: 2023'),
+(2, 'Pedro López', 1969, 1979, '1969 to 1979', 110, '300+', 'Colombie', 1948, 'Psychopathie', 'Libéré (1998)', 'Child-murderer and rapist, known as "The Monster of the Andes". Targeted young girls (8-12 years old). Claimed hundreds of victims. Released despite being one of the most prolific serial killers of the 20th century.'),
+(3, 'Javed Iqbal', 1998, 1999, '1998 to 1999', 100, '100', 'Pakistan', 1956, 'Dépression sévère', 'Suicide en prison (2001)', 'Child-murderer and rapist ("Kukri"). Strangled 100 street children, dissolved bodies in acid. Arrested after confessing via letter. Sentenced to symbolic execution (strangling + acid dissolution), but died before execution.'),
+(4, 'Mikhail Popkov', 1992, 2010, '1992 to 2010', 83, '83+', 'Russie', 1964, 'Schizophrénie paranoïde', 'Prison à perpétuité', '"The Werewolf". Serial rapist-killer active in Angarsk/Irkutsk/Vladivostok. Confessed to 83 murders (convicted of 78). Continued confessing after initial convictions.'),
+(5, 'Daniel Camargo Barbosa', 1974, 1986, '1974 to 1986', 72, '180', 'Colombie', 1930, 'Pédophilie', 'Tué en prison (1986)', 'Targeted female children (preferred virgins). Confessed to 72 killings, suspected of 150+. Escaped Colombian prison, killed in Ecuadorian prison by victim''s relative.'),
+(6, 'Pedro Rodrigues Filho', 1967, 2003, '1967 to 2003', 71, '100+', 'Brésil', 1954, 'Trouble explosif intermittent', 'Libéré (2018)', 'Killed 100+ (including inmates and his father). Ate part of father''s heart. Started at age 14. Served 30 years (max Brazilian sentence).'),
+(7, 'Kampatimar Shankariya', 1977, 1978, '1977 to 1978', 70, '70+', 'Inde', 1940, 'Inconnu', 'Exécuté (1979)', 'Hammer killer. Hanged in 1979; last words: "I have murdered in vain. Nobody should become like me."'),
+(8, 'Yang Xinhai', 2000, 2003, '2000 to 2003', 67, '67', 'Chine', 1968, 'Trouble schizo-affectif', 'Exécuté (2004)', '"Monster Killer". Broke into homes at night, killed with axes/cleavers/hammers. Executed by firing squad.'),
+(9, 'Samuel Little', 1970, 2005, '1970 to 2005', 60, '93', 'États-Unis', 1940, 'Narcissisme malin', 'Décès en prison (2020)', 'Confirmed 60 victims (claimed 93). Most prolific U.S. serial killer. FBI investigations ongoing.'),
+(10, 'Giuseppe Greco', 1981, 1983, '1981 to 1983', 58, '80-300', 'Italie', 1952, 'Trouble de la personnalité antisociale', 'Assassiné (1985)', 'Mafia hitman (AK-47 specialist). Convicted of 58 murders during Second Mafia War, suspected of up to 300.'),
+(11, 'Andrei Chikatilo', 1978, 1990, '1978 to 1990', 53, '56', 'URSS', 1936, 'Schizophrénie', 'Exécuté (1994)', '"The Butcher of Rostov". Killed 53 women/children. First victim wrongly attributed; innocent man executed.'),
+(12, 'Anatoly Onoprienko', 1989, 1996, '1989 to 1996', 52, '52+', 'Ukraine', 1959, 'Psychopathie', 'Décès en prison (2013)', '"The Beast of Ukraine". Killed 52 in two sprees (1989 and 1995-96). Possibly killed in Europe during 1990-95. Death sentence commuted to life.'),
+(13, 'Ivan Maleshoff', 1934, 1935, '1934 to 1935', 50, '50', 'URSS', 1895, 'Inconnu', 'Exécuté (1935)', '"Bluebeard of Kharkiv". Electrical engineer who stabbed 20 women in Kharkiv (1935), confessed to 30 more in Kyiv (1934). Executed by firing squad.'),
+(14, 'Florisvaldo de Oliveira', 1982, 1982, '1982', 50, '50+', 'Brésil', 1950, 'Aucun diagnostic formel', 'Assassiné (2012)', '"Cabo Bruno". Ex-police vigilante who killed criminals in São Paulo outskirts.'),
+(15, 'Robert Pickton', 1983, 2002, '1983 to 2002', 49, '49', 'Canada', 1949, 'Trouble de la personnalité schizoïde', 'Emprisonné à vie', '"The Butcher". Fed victims to pigs. Convicted of 6 murders, charged with 49 (43 charges dropped).'),
+(16, 'Gary Ridgway', 1982, 2000, '1982 to 2000', 49, '71–90+', 'États-Unis', 1949, 'Trouble de la personnalité évitante', 'Prison à perpétuité', '"Green River Killer". Targeted Seattle sex workers. Confessed to 71, convicted of 49.'),
+(17, 'Alexander Pichushkin', 1992, 2006, '1992 to 2006', 48, '60', 'Russie', 1974, 'Trouble obsessionnel-compulsif', 'Prison à perpétuité', '"Chessboard Killer". Aimed to surpass Chikatilo''s record. Claimed 62 kills (2 survivors).'),
+(18, 'Wang Qiang', 1995, 2003, '1995 to 2003', 45, '60+', 'China', 1975, 'Sadisme', 'Exécuté (2005, peloton d''exécution)', 'Killed 45, raped 10. Executed by firing squad.'),
+(19, 'Ahmad Suradji', 1986, 1997, '1986 to 1997', 42, '70–80+', 'Indonesia', 1949, 'Délire mystique', 'Exécuté (2008, peloton d''exécution)', 'Ritual killer (strangled women/girls for "magical powers"). Executed by firing squad.'),
+(20, 'Raman Raghav', 1965, 1968, '1965 to 1968', 41, '41', 'India', 1940, 'Trouble psychotique non spécifié', 'Décédé en prison (1995, insuffisance rénale)', 'Bludgeoned 41 people in Mumbai huts while they slept.'),
+(21, 'Tiago Henrique Gomes da Rocha', 2011, 2014, '2011–2014', 39, '39', 'Brazil', 1985, 'Psychopathy', '25 years imprisonment', 'Brazilian security guard, confessed to 39 murders, attempted suicide in prison.'),
+(22, 'Moses Sithole', 1994, 1995, '1994–1995', 38, '76', 'South Africa', 1964, 'Narcissistic Personality Disorder', '2410 years (non-parole: 930 years)', '"South Africa''s Ted Bundy". Posed as businessman, raped/tortured unemployed women.'),
+(23, 'Serhiy Tkach', 1984, 2005, '1984–2005', 36, '80–100', 'Soviet Union / Ukraine', 1952, 'Sexual Sadism', 'Life imprisonment (died 2018, heart)', 'Ex-police investigator, suffocated girls (8–18), necrophilia. Claimed 100 victims.'),
+(24, 'Gennady Mikhasevich', 1971, 1985, '1971–1985', 36, '43–55+', 'Soviet Union', 1947, 'Antisocial Personality Disorder', 'Executed (1987, firing squad)', 'Strangled women, robbed victims, gifted items to wife.'),
+(25, 'Hadj Mohammed Mesfewi', 1906, 1906, 'Unknown', 36, '36+', 'Morocco', 1860, 'Unknown (suspected psychosis)', 'Executed (1906, immurement)', '"Marrakesh Arch-Killer". Drugged/mutilated women.'),
+(26, 'Vera Renczi', 1920, 1930, '1920–1930', 35, '~35', 'Romania / Yugoslavia', 1903, 'Borderline Personality Disorder', 'Released (1923) / Disputed historicity', '"The Black Widow". Arsenic poisoner. Possibly folklore.'),
+(27, 'Ted Bundy', 1974, 1978, '1974–1978', 35, '36–100+', 'United States', 1946, 'Psychopathy', 'Executed (1989, electric chair)', 'Charismatic, escaped prison twice, targeted young women.'),
+(28, 'Clementine Barnabet', 1911, 1911, '1911', 35, '35', 'United States', 1894, 'Cult indoctrination', 'Released (1923)', 'Voodoo priestess, axe murders of African-American families.'),
+(29, 'John Wayne Gacy', 1972, 1978, '1972–1978', 33, '34+', 'United States', 1942, 'Antisocial PD + Pedophilia', 'Executed (1994, lethal injection)', '"Killer Clown". Buried victims in crawl space.'),
+(30, 'Ali Asghar Borujerdi', 1907, 1934, '1907–1934', 33, '33', 'Ottoman Empire / Iraq / Iran', 1880, 'Unknown', 'Executed (1934, hanging)', '"Asghar the Murderer". Killed young adults across Middle East.'),
+(31, 'Vasili Komaroff', 1921, 1923, '1921–1923', 33, '33', 'Soviet Union', 1890, 'Sadism', 'Executed (1923, firing squad)', '"The Wolf of Moscow". Horse trader, killed 33 men.'),
+(32, 'Fernando Hernández Leyva', 1982, 1999, '1982–1999', 33, '100+', 'Mexico', 1958, 'Psychopathy', '50 years imprisonment', 'Confessed to 100+ murders (retracted). Suspected Mexico''s most prolific killer.'),
+(33, 'Ramadan Abdel Rehim Mansour', 1999, 2006, '1999–2006', 32, '32+', 'Egypt', 1970, 'Pedophilia + Sadism', 'Executed (2010)', '"Al-Tourbini". Gang leader, raped/tortured homeless boys on trains.'),
+(34, 'Radik Tagirov', 2011, 2012, '2011–2012', 32, '32', 'Russia', 1989, 'Schizoid Personality Disorder', 'Life imprisonment', 'Killed elderly women across Russian regions.');
+
+
