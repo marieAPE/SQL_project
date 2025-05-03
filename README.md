@@ -1,8 +1,8 @@
 ```mermaid
 erDiagram
-    serial_killers ||--o{ methods : "1-N"
-    serial_killers ||--|| locations : "1-1"
-    serial_killers ||--|| investigations : "1-1"
+    serial_killers ||--o{ methods : "utilise"
+    serial_killers ||--|| locations : "localisé dans"
+    serial_killers ||--|| investigations : "fait l'objet"
     
     serial_killers {
         integer killer_id PK
