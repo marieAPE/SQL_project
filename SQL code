@@ -1,0 +1,84 @@
+---1.  Quelle est la méthode de meurtre la plus utilisée dans le pays où il y a le plus de meurtrier ?
+
+SELECT methods.method_name, COUNT(*) AS nb_utilisation, locations.country
+FROM serial_killers
+JOIN locations ON locations.killer_id = serial_killers.killer_id
+JOIN methods ON methods.killer_id = serial_killers.killer_id
+WHERE locations.country = (
+    SELECT locations.country
+    FROM serial_killers
+    JOIN locations ON locations.killer_id = serial_killers.killer_id
+    GROUP BY locations.country
+    ORDER BY COUNT(locations.country) DESC
+    LIMIT 1
+)
+GROUP BY methods.method_name, locations.country
+ORDER BY nb_utilisation DESC
+LIMIT 1;
+
+-- Le pays où il y a le plus de tueurs en série est la Russie et le coup de hache est la méthode la plus utilisée en Russie.--
+
+-- Y a-t-il une corrélation entre l’âge auquel un meurtrier commence à tuer et la durée de sa période de meurtres ?
+
+SELECT name, start_year - birth_year AS first_murder, end_year - start_year as nb_years_actifs
+FROM serial_killers
+ORDER BY nb_years_actifs DESC;
+
+-- On ne remarque pas de corrélation entre l’âge auquel un meurtrier commence à tuer et la durée de sa période de meurtres
+
+-- Les méthodes de meurtre varient-elles selon l’âge du meurtrier au moment du crime ?
+SELECT serial_killers.name, serial_killers.start_year - serial_killers.birth_year AS year_first_murder, serial_killers.end_year - serial_killers.birth_year as year_last_murder, methods.method_name
+FROM serial_killers
+JOIN methods ON methods.killer_id = serial_killers.killer_id
+ORDER BY year_first_murder DESC;
+
+-- Les méthodes de meurtre ne varient pas en fonction de l'âge du meurtrier
+
+-- Trier la méthode de meurtre la plus utilisé en fonction de la tranche d'âge du meurtier (pour son 1er meurtre)
+
+WITH age_tranches AS (
+  SELECT
+    serial_killers.killer_id,
+    methods.method_name,
+    CASE
+      WHEN (serial_killers.start_year - serial_killers.birth_year) < 22 THEN 'Moins de 21 ans: mineur'
+      WHEN (serial_killers.start_year - serial_killers.birth_year) BETWEEN 22 AND 30 THEN '22-30 ans'
+      WHEN (serial_killers.start_year - serial_killers.birth_year) BETWEEN 31 AND 40 THEN '31-40 ans'
+      WHEN (serial_killers.start_year - serial_killers.birth_year) BETWEEN 41 AND 50 THEN '41-50 ans'
+      WHEN (serial_killers.start_year - serial_killers.birth_year) BETWEEN 51 AND 60 THEN '51-60 ans'
+      ELSE 'Plus de 60 ans'
+    END AS tranche_age
+  FROM serial_killers
+  JOIN methods ON methods.killer_id = serial_killers.killer_id
+),
+method_counts AS (
+  SELECT
+    tranche_age,
+    method_name,
+    COUNT(*) AS nb_tueurs,
+    ROW_NUMBER() OVER (PARTITION BY tranche_age ORDER BY COUNT(*) DESC) AS rn
+  FROM age_tranches
+  GROUP BY tranche_age, method_name
+)
+SELECT tranche_age, method_name, nb_tueurs
+FROM method_counts
+WHERE rn = 1
+ORDER BY tranche_age;
+
+--- Quelle est la moyenne/ le minimum/ le maximum d’âge des meurtriers quand ils ont commencé les meurtres par pays ? 
+
+SELECT locations.country, COUNT(serial_killers.name) AS nbr_killers, AVG(serial_killers.start_year - serial_killers.birth_year) AS average_year_start_murder, MAX(serial_killers.start_year - serial_killers.birth_year) AS max_year_murder, MIN(serial_killers.start_year - serial_killers.birth_year) AS min_year_murder
+FROM serial_killers
+JOIN locations ON locations.killer_id = serial_killers.killer_id
+GROUP BY locations.country
+ORDER BY nbr_killers DESC;
+
+--- Les pays où le port d'armes est légalisé, a-t-il plus de meurtriers qui utilisent la méthode de l’arme à feu par rapport aux pays qui ne légalisent pas le port d’armes ?
+
+SELECT locations.legal_gun_ownership, locations.country
+FROM locations
+JOIN methods ON methods.killer_id = locations.killer_id
+WHERE methods = (
+    SELECT methods.method_name
+    FROM methods
+GROUP BY locations.country;
