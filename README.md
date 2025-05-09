@@ -1,12 +1,6 @@
+Lien du site d'où la base de donnée a été téléchargée : https://www.kaggle.com/datasets/vesuvius13/serial-killers-dataset?resource=download&select=Highest_victim_count.csv
 
-dadad
-ad
-a
-da
-da
-
-
-
+[Base de donnée ](Highest_victim_count.csv)
 
 
 
