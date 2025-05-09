@@ -10,7 +10,7 @@ Base de données relationnelle analysant les caractéristiques des tueurs en sé
 - [Document de conception](Document_de_conception.pdf) - Explication détaillée de la structure et des choix techniques
 - [Script des requêtes SQL](Script_de_requetes) - Requêtes d'analyse prêtes à l'emploi
 - [Script du schéma](Script_de_schema) - Code SQL pour recréer la structure de la base
-- [Base de données complète](KillersClean.db) - Fichier SQLite opérationnel
+- [Base de données complète](SQL_killers.db) - Fichier SQLite opérationnel
 - 
 ## 🛠️ Structure Technique
 
