@@ -243,5 +243,5 @@ INSERT INTO investigations (investigation_id, killer_id, start_year, end_year, a
 (34, 34, 2011, 2019, 2020, 2021, 31, 31);
 
 
-
+-- Plus d'informations concernant les relations entre les tables dans le document de conception.
 
