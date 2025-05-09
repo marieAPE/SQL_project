@@ -20,9 +20,9 @@ DROP TABLE IF EXISTS serial_killers;
 -- ======================================================
 -- TABLE PRINCIPALE : serial_killers
 -- Contient les informations de base sur chaque tueur
--- La colonne "name" contient le nom et prénom du tueurs. la colonne "status" si il est emprisonné.libre/décéder. Enfin "keywords" contient des infos plus détaillés sur le tueurs (ex : surnom, méthode,etc..)
-
+-- La colonne "name" contient le nom et prénom du tueurs. la colonne "status" si il est emprisonné/libre/décéder. Enfin "keywords" contient des infos plus détaillés sur le tueurs (ex : surnom, méthode,etc..)
 -- ======================================================
+
 CREATE TABLE serial_killers (
     killer_id INTEGER PRIMARY KEY,
     name TEXT NOT NULL,
@@ -81,6 +81,7 @@ INSERT INTO serial_killers VALUES
 -- TABLE : methods
 -- Recense les méthodes de meurtre employées
 -- ======================================================
+
 CREATE TABLE methods (
     method_id INT,
     killer_id INTEGER,
@@ -130,6 +131,7 @@ INSERT INTO methods (method_id, killer_id, method_name) VALUES
 -- TABLE : locations
 -- Donne des informations sur les pays où les meurtres ont eu lieu
 -- ======================================================
+
 CREATE TABLE locations (
     location_id INT,
     killer_id INT,
@@ -190,6 +192,7 @@ INSERT INTO locations (location_id, killer_id, poor_rate_of_the_country, crime_r
 -- Suivi complet des enquêtes judiciaires pour chaque cas
 -- conviction_year correspond à 
 -- ======================================================
+
 CREATE TABLE investigations (
     investigation_id INT PRIMARY KEY,
     killer_id INT,
@@ -240,73 +243,5 @@ INSERT INTO investigations (investigation_id, killer_id, start_year, end_year, a
 (34, 34, 2011, 2019, 2020, 2021, 31, 31);
 
 
--- ======================================================
---RELATIONS ENTRE LES TABLES
--- ======================================================
-
--- STRUCTURE GLOBALE :
--- La base de données repose sur 4 tables :
--- 1. serial_killers (table centrale)
--- 2. methods (méthodes de meurtre)
--- 3. locations (contexte géographique)
--- 4. investigations (suivi judiciaire)
-
--- ======================================================
--- TABLE PRINCIPALE : serial_killers
--- ======================================================
--- Contient les informations de base sur chaque tueur en série
--- Clé primaire : killer_id (entier unique pour chaque tueur)
--- Relations :
---    - 1:n avec methods (un tueur peut avoir plusieurs méthodes)
---    - 1:1 avec locations (chaque tueur a une localisation principale)
---    - 1:1 avec investigations (chaque tueur a un dossier d'enquête)
-
--- ======================================================
--- TABLE : methods
--- ======================================================
--- Recense les méthodes de meurtre employées
--- Clé primaire composite : (method_id, killer_id)
--- Clé étrangère : killer_id référence serial_killers(killer_id)
--- Justification : Permet de lister plusieurs méthodes pour un même tueur
--- Exemple : Un tueur peut utiliser à la fois strangulation et arme blanche
 
 
--- ======================================================
--- TABLE : locations
--- ======================================================
--- Donne le contexte géographique des crimes
--- Clé primaire composite : (location_id, killer_id)
--- Clé étrangère : killer_id référence serial_killers(killer_id)
--- Particularité : Relation 1:1 (un tueur = une localisation principale)
--- Contient des données socio-économiques (taux de pauvreté, criminalité...)
-
-
--- ======================================================
--- TABLE : investigations
--- ======================================================
--- Suivi complet des enquêtes judiciaires
--- Clé primaire : investigation_id (entier unique)
--- Clé étrangère : killer_id référence serial_killers(killer_id)
--- Particularité : Relation 1:1 (une enquête par tueur)
--- Contient la chronologie judiciaire (arrestation, condamnation...)
-
-
--- ======================================================
-
--- Clé primaire composite :
-
---Une clé primaire composite a été utilisé car :
---    - Un tueur peut avoir plusieurs méthodes (ex: couteau + strangulation)
---    - Une méthode peut être utilisée par plusieurs tueurs
---    => La combinaison (method_id + killer_id) est unique
--- Une clé primaire composite a été utilisé pour la table locations car :
---    - Chaque tueur a UNE seule localisation principale
---    - Plusieurs tueurs peuvent avoir des localisations similaires
---    => killer_id doit être unique mais location_id peut se répéter
-
--- AVANTAGE :
--- Évite les tables de liaison inutiles tout garantissant :
--- - Pas de doublons
--- - Relations claires entre tables
--- - Meilleures performances
--- ======================================================
