@@ -11,7 +11,8 @@ Base de données relationnelle analysant les caractéristiques des tueurs en sé
 - [Script des requêtes SQL](Script_de_requetes) - Requêtes d'analyse prêtes à l'emploi
 - [Script du schéma](Script_de_schema) - Code SQL pour recréer la structure de la base
 - [Base de données complète](SQL_killers.db) - Fichier SQLite opérationnel
-- 
+
+
 ## 🛠️ Structure Technique
 
 ### Diagramme Entité-Relation
