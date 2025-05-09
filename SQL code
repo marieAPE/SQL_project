@@ -1,4 +1,4 @@
----1.  Quelle est la méthode de meurtre la plus utilisée dans le pays où il y a le plus de meurtrier ?
+---  Quelle est la méthode de meurtre la plus utilisée dans le pays où il y a le plus de meurtrier ?
 
 SELECT methods.method_name, COUNT(*) AS nb_utilisation, locations.country
 FROM serial_killers
@@ -75,10 +75,183 @@ ORDER BY nbr_killers DESC;
 
 --- Les pays où le port d'armes est légalisé, a-t-il plus de meurtriers qui utilisent la méthode de l’arme à feu par rapport aux pays qui ne légalisent pas le port d’armes ?
 
-SELECT locations.legal_gun_ownership, locations.country
+SELECT 
+    locations.legal_gun_ownership,
+    CASE 
+        WHEN methods.method_name LIKE 'Arme à feu' THEN 'Arme à feu'
+        ELSE 'Autre'
+    END AS type_methode,
+    COUNT(*) AS NBR_meurtres
 FROM locations
 JOIN methods ON methods.killer_id = locations.killer_id
-WHERE methods = (
-    SELECT methods.method_name
-    FROM methods
-GROUP BY locations.country;
+GROUP BY locations.legal_gun_ownership, type_methode;
+
+-- On remarque que la légalisation de port d'arme n'a pas d'importance. Prémièrement, ce n'est pas une méthode très utilisée par les meurtriers.
+-- On remarque également qu'il y a plus de meurtre par arme à feu dans les pays où le port d'arme n'est pas autorisé (2 contre 1 ce qui n'est tout de même pas significatif)
+
+-- Existe-t-il une corrélation entre l’écart temporel entre l’année des meurtres et celle des arrestations, et le taux de criminalité des pays ?
+
+SELECT locations.country, AVG(serial_killers.end_year) - AVG(serial_killers.start_year) AS ecart_temporel, locations.crime_rate
+FROM serial_killers 
+JOIN locations ON locations.killer_id = serial_killers.killer_id
+GROUP BY locations.country
+ORDER BY locations.crime_rate DESC ;
+
+-- On observe de grandes variations entre les pays, sans lien clair entre la durée d’activité d’un tueur en série et le taux de criminalité global. 
+-- Cela suggère que le taux de criminalité dans un pays n’est pas directement influencé par l’écart temporel observé chez les tueurs en série.
+
+
+-- Trouve-t-on un lien entre les différentes méthodes utilisées et les problèmes de santé mentale ? 
+
+SELECT 
+  serial_killers.mental_health_diagnosis, 
+  methods.method_name, 
+  COUNT(*) AS nb_utilisation_methode
+FROM 
+  serial_killers
+JOIN 
+  methods ON methods.killer_id = serial_killers.killer_id
+GROUP BY 
+  serial_killers.mental_health_diagnosis, 
+  methods.method_name
+HAVING 
+  COUNT(*) > 1
+ORDER BY 
+  nb_utilisation_methode DESC;
+  
+-- Les données suggèrent un lien possible entre certaines méthodes de meurtre et des diagnostics de santé mentale spécifiques, comme l’usage d’armes à feu chez les personnes atteintes de psychopathie. 
+-- Cependant, le nombre de cas est très limité, avec seulement deux occurrences par association. Il est donc difficile de tirer une conclusion fiable à partir de cet échantillon restreint.
+
+-- Certains types de méthodes (étouffement, armes blanches, empoisonnement, etc.) sont-ils plus fréquents dans certains pays et quel est l'âge moyen des tueurs concernés  (à partir du moment où ils ont commencé les meurtres)?
+
+SELECT methods.method_name, locations.country, COUNT (*) AS nbr_methode_par_pays, AVG(serial_killers.start_year- serial_killers.birth_year) AS age_moyen_de_ces_tueurs
+FROM methods
+JOIN locations ON locations.killer_id = methods.killer_id
+JOIN serial_killers ON serial_killers.killer_id = methods.killer_id
+GROUP BY locations.country, methods.method_name
+HAVING nbr_methode_par_pays > 1
+ORDER BY nbr_methode_par_pays DESC;
+
+
+-- Quels sont les pays qui recensent des meurtriers mineurs (moins de 21 ans) à partir du moment où ils ont commencé les meurtres et quels sont leur méthode ?
+
+SELECT COUNT(serial_killers.name) AS nbr_mineur, locations.country, methods.method_name
+FROM serial_killers
+JOIN locations ON locations.killer_id = serial_killers.killer_id
+JOIN methods ON methods.killer_id = serial_killers.killer_id
+WHERE serial_killers.start_year - serial_killers.birth_year <= 21
+GROUP BY locations.country
+ORDER BY locations.country DESC;
+
+-- Ces 6 pays recensent chacun 1 meurtirer mineur (au début de ses meurtres)
+
+-- Quelle est la méthode de meurtre la plus utilisée par les plus de 50 ans (à partir du moment où ils ont arrêté les meurtres)
+
+SELECT COUNT(serial_killers.name) AS nbr_utilisation, methods.method_name
+FROM serial_killers
+JOIN methods ON methods.killer_id = serial_killers.killer_id
+WHERE serial_killers.end_year - serial_killers.birth_year > 50
+GROUP BY methods.method_name
+ORDER BY nbr_utilisation DESC
+LIMIT 1;
+
+--- En analysant les mots-clés, les meurtriers s’en prennent plutôt aux hommes ou aux femmes ? Quelle est la méthode la plus utilisée pour ceux qui tuent plutôt des femmes, et pour les hommes ?
+
+WITH homme_femme AS (
+    SELECT
+        CASE
+            WHEN keywords LIKE '%femme%' OR keywords LIKE '%fille%' THEN 'Cible des femmes/ filles'
+            WHEN keywords LIKE '%homme%' OR keywords LIKE '%garçon%' THEN 'Cible des hommes/ garçons'
+            ELSE 'Autre'
+        END AS homme_femme,
+        COUNT(*) AS nbr_cible
+    FROM serial_killers
+    GROUP BY homme_femme
+),
+method_usage AS (
+    SELECT
+        hf.homme_femme,
+        m.method_name,
+        COUNT(*) AS nbr_utilisation
+    FROM methods m
+    JOIN (
+        SELECT
+            killer_id,
+            CASE
+                WHEN keywords LIKE '%femme%' OR keywords LIKE '%fille%' THEN 'Cible des femmes/ filles'
+                WHEN keywords LIKE '%homme%' OR keywords LIKE '%garçon%' THEN 'Cible des hommes/ garçons'
+                ELSE 'Autre'
+            END AS homme_femme
+        FROM serial_killers
+    ) hf ON m.killer_id = hf.killer_id
+    GROUP BY hf.homme_femme, m.method_name
+),
+method_most_used AS (
+    SELECT *
+    FROM (
+        SELECT *,
+               ROW_NUMBER() OVER (PARTITION BY homme_femme ORDER BY nbr_utilisation DESC) AS rn
+        FROM method_usage
+    ) sub
+    WHERE rn = 1
+)
+SELECT mmu.homme_femme, hf.nbr_cible, mmu.method_name AS methode_la_plus_utilisée
+FROM method_most_used mmu
+JOIN homme_femme hf ON mmu.homme_femme = hf.homme_femme;
+
+
+-- Les femmes/ filles sont plus ciblées que les hommes/garçons et la méthode la plus utilisée pour les femmes/ filles c'est la strangulation
+
+-- Quel est le nombre total de meutre par pays et la moyenne d’âge des meurtriers par pays(au début des meurtres) ?
+
+SELECT COUNT(serial_killers.killer_id) AS nbr_meurtrier, locations.country, AVG(serial_killers.start_year - serial_killers.birth_year) AS age_moyen
+FROM serial_killers
+JOIN locations ON locations.killer_id = serial_killers.killer_id
+GROUP BY locations.country
+ORDER BY nbr_meurtrier DESC;
+
+-- Quelle est la moyenne d’âge des meurtriers qui s’en prennent aux enfants ?
+
+SELECT AVG(serial_killers.start_year - serial_killers.birth_year) AS moyenne_age
+FROM serial_killers
+WHERE serial_killers.keywords LIKE '%enfant%' OR serial_killers.keywords LIKE '%garçon%' OR serial_killers.keywords LIKE '%fille%';
+
+-- Top 10 tueurs avec victimes avérées et leur méthode
+
+SELECT serial_killers.name, serial_killers.proven_victims, methods.method_name
+FROM serial_killers
+JOIN methods ON methods.killer_id = serial_killers.killer_id
+ORDER BY serial_killers.proven_victims DESC
+LIMIT 10;
+
+-- Existe t-il une corrélation entre le nombre de meurtres et la situation de pauvreté par pays?
+
+WITH situation_pauvrete AS (
+    SELECT
+        country,
+        poor_rate_of_the_country,
+        CASE
+            WHEN poor_rate_of_the_country BETWEEN 40 AND 100 THEN 'Pays avec taux de pauvreté très élevé'
+            WHEN poor_rate_of_the_country BETWEEN 25 AND 39.9 THEN 'Pays avec taux de pauvreté élevé'
+            WHEN poor_rate_of_the_country BETWEEN 10 AND 24.9 THEN 'Pays avec taux de pauvreté moyen'
+            WHEN poor_rate_of_the_country BETWEEN 5 AND 9.9 THEN 'Pays avec taux de pauvreté faible'
+            WHEN poor_rate_of_the_country BETWEEN 0 AND 4.9 THEN 'Pays avec taux de pauvreté très faible'
+            ELSE 'Inconnu'
+        END AS situation_pauvrete
+    FROM locations
+)
+SELECT
+    situation_pauvrete,
+    COUNT(country) AS nbr_meurtrier_dans_cette_situation
+FROM situation_pauvrete
+GROUP BY situation_pauvrete;
+
+-- On remarque une très légère corrélation entre le taux de pauvreté et le nombre de meurtrier dans un pays. Etonnament, il y a moins de meurtirer dans les pays avec un
+-- taux de pauvreté très elevé/ elevé.
+-- Il y a plus de meurtrier dans les pays avec un taux de pauvreté moyen
+-- Note: Il est possible que les les pays avec des situations de pauvreté plus élevés aient moins de moyens pour arrêter les meurtriers
+
+-- Les sadiques ont-ils plus souvent de victimes que les psychopathes ? Quelle est la méthode utilisée pour ces 2 types de meurtriers ?
+
+
+
