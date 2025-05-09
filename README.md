@@ -65,6 +65,7 @@ erDiagram
         integer number_of_victims_claimed
     }
 ```
+
 PIERRON Marie et BACHER Quentin
 
 
