@@ -253,5 +253,49 @@ GROUP BY situation_pauvrete;
 
 -- Les sadiques ont-ils plus souvent de victimes que les psychopathes ? Quelle est la méthode utilisée pour ces 2 types de meurtriers ?
 
+WITH sadique_psychopathe AS (
+    SELECT
+        killer_id,
+        CASE
+            WHEN mental_health_diagnosis LIKE '%sadi%' OR mental_health_diagnosis LIKE '%Sadi%' THEN 'Sadique'
+            WHEN mental_health_diagnosis LIKE '%psychop%' OR mental_health_diagnosis LIKE '%Psycho%' THEN 'Psychopathe'
+            ELSE 'Autre'
+        END AS sadique_psychopathe
+    FROM serial_killers
+),
+method_usage AS (
+    SELECT
+        sp.sadique_psychopathe,
+        m.method_name,
+        COUNT(*) AS nbr_utilisation
+    FROM methods m
+    JOIN sadique_psychopathe sp ON m.killer_id = sp.killer_id
+    GROUP BY sp.sadique_psychopathe, m.method_name
+),
+method_most_used AS (
+    SELECT *
+    FROM (
+        SELECT *,
+               ROW_NUMBER() OVER (PARTITION BY sadique_psychopathe ORDER BY nbr_utilisation DESC) AS rn
+        FROM method_usage
+    ) sub
+    WHERE rn = 1
+),
+victimes_par_type AS (
+    SELECT
+        sp.sadique_psychopathe,
+        SUM(sk.proven_victims) AS nbr_victimes
+    FROM serial_killers sk
+    JOIN sadique_psychopathe sp ON sk.killer_id = sp.killer_id
+    GROUP BY sp.sadique_psychopathe
+)
+SELECT
+    vpt.sadique_psychopathe,
+    vpt.nbr_victimes,
+    mmu.method_name
+FROM victimes_par_type vpt
+JOIN method_most_used mmu ON vpt.sadique_psychopathe = mmu.sadique_psychopathe;
+
+-- Les psychopathes ont plus de victimes que les sadiques (346 contre 146) et la méthode la plus utilisée par les psytchopathes est l'arme à feu alors que la méthode la plus utilisé pour les sadiques est la strangulation
 
 
