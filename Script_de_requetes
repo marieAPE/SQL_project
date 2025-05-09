@@ -298,4 +298,36 @@ JOIN method_most_used mmu ON vpt.sadique_psychopathe = mmu.sadique_psychopathe;
 
 -- Les psychopathes ont plus de victimes que les sadiques (346 contre 146) et la méthode la plus utilisée par les psytchopathes est l'arme à feu alors que la méthode la plus utilisé pour les sadiques est la strangulation
 
+--- Quelle est la moyenne d'âge lorsque les tueurs se sont fait arrêter ?
 
+SELECT AVG(investigations.arrest_year - serial_killers.birth_year) AS moyenne_age_arrestation
+FROM serial_killers
+JOIN investigations ON investigations.killer_id = serial_killers.killer_id;
+
+-- La moyenne d'âge est entre 41 et 42 ans.
+
+-- Y a t-il un lien entre le taux de criminalité par pays etla durée de temps entre l'année d'arrestation et l'année de jugement ?
+
+WITH situation_criminalité AS (
+    SELECT
+        killer_id,
+        country,
+        crime_rate,
+        CASE
+            WHEN crime_rate BETWEEN 40 AND 100 THEN 'Pays avec taux de criminalité très élevé'
+            WHEN crime_rate BETWEEN 25 AND 39.9 THEN 'Pays avec taux de criminalité élevé'
+            WHEN crime_rate BETWEEN 10 AND 24.9 THEN 'Pays avec taux de criminalité moyen'
+            WHEN crime_rate BETWEEN 5 AND 9.9 THEN 'Pays avec taux de criminalité faible'
+            WHEN crime_rate BETWEEN 0 AND 4.9 THEN 'Pays avec taux de criminalité très faible'
+            ELSE 'Inconnu'
+        END AS situation_criminalité
+    FROM locations
+)
+SELECT
+    sc.situation_criminalité,
+    AVG(i.conviction_year - i.arrest_year) AS durée_entre_arrestation_et_jugement
+FROM situation_criminalité sc
+JOIN investigations i ON i.killer_id = sc.killer_id
+GROUP BY sc.situation_criminalité;
+
+-- Les résultats ne permettent pas de conclure qu'il y ait une corrélation entre la durée entre l'arrestation et le jugement en fonction du taux de criminalité dans les pays
