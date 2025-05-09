@@ -1,21 +1,14 @@
-Lien du site d'où la base de donnée a été téléchargée : https://www.kaggle.com/datasets/vesuvius13/serial-killers-dataset?resource=download&select=Highest_victim_count.csv
+## 📌 Aperçu du Projet
+Base de données relationnelle analysant les caractéristiques des tueurs en série les plus prolifiques mondialement. Contient 34 cas documentés avec leurs méthodes, localisations et données judiciaires.
 
-[Base de donnée ](Highest_victim_count.csv)
+## 🗃️ Sources des Données
+- **Dataset original** : [Serial Killers Dataset sur Kaggle](https://www.kaggle.com/datasets/vesuvius13/serial-killers-dataset?resource=download)
+- **Fichier source** : [Highest_victim_count.csv](Highest_victim_count.csv)
+- **Données complémentaires** : Enrichies manuellement par des données fictives 
 
+## 🛠️ Structure Technique
 
-
-
-
-
-
-
-
-
-
-
-
-
-
+### Diagramme Entité-Relation
 
 ```mermaid
 erDiagram
