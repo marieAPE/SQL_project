@@ -1,11 +1,17 @@
 ## 📌 Aperçu du Projet
-Base de données relationnelle analysant les caractéristiques des tueurs en série les plus prolifiques mondialement. Contient 34 cas documentés avec leurs méthodes, localisations et données judiciaires.
+Base de données relationnelle analysant les caractéristiques des tueurs en série les plus prolifiques mondialement. Contient 34 cas documentés avec leurs méthodes, localisations et données judiciaires. Cela a pour but, via des requêtes SQL de savoir par exemple si il y a une corrélation entre l’âge auquel un meurtrier commence à tuer et la durée de sa période de meurtres.
 
 ## 🗃️ Sources des Données
 - **Dataset original** : [Serial Killers Dataset sur Kaggle](https://www.kaggle.com/datasets/vesuvius13/serial-killers-dataset?resource=download)
 - **Fichier source** : [Highest_victim_count.csv](Highest_victim_count.csv)
 - **Données complémentaires** : Enrichies manuellement par des données fictives 
 
+## 📂 Fichiers du Projet
+- [Document de conception](Document_de_conception.pdf) - Explication détaillée de la structure et des choix techniques
+- [Script des requêtes SQL](Script_de_requetes.sql) - Requêtes d'analyse prêtes à l'emploi
+- [Script du schéma](Script_de_schema.sql) - Code SQL pour recréer la structure de la base
+- [Base de données complète](KillersClean.db) - Fichier SQLite opérationnel
+- 
 ## 🛠️ Structure Technique
 
 ### Diagramme Entité-Relation
