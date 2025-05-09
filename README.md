@@ -1,5 +1,5 @@
 ## 📌 Aperçu du Projet
-Base de données relationnelle analysant les caractéristiques des tueurs en série les plus prolifiques mondialement. Contient 34 cas documentés avec leurs méthodes, localisations et données judiciaires. Cela a pour but, via des requêtes SQL, si y existe des corrélations entre plusieurs éléments, analyser l'impact d'un contexte socio-économique, faire des études sur l'éfficacité des enquêtes judiciaire ou encore bien-sûr obtenir des informations sur un ou plusieurs éléments en particulier (ex : un individus, un pays, une méthode, etc..) 
+Base de données relationnelle analysant les caractéristiques des tueurs en série les plus prolifiques mondialement. Contient 34 cas documentés avec leurs méthodes, localisations et données judiciaires. Cela a pour but, via des requêtes SQL, si y existe des corrélations entre plusieurs éléments, analyser l'impact d'un contexte socio-économique, faire des études sur l'éfficacité des enquêtes judiciaire ou encore bien-sûr obtenir des informations sur un ou plusieurs éléments en particulier (ex : un/plusieurs individu(s), un pays, une méthode, etc..) 
 
 ## 🗃️ Sources des Données
 - **Dataset original** : [Serial Killers Dataset sur Kaggle](https://www.kaggle.com/datasets/vesuvius13/serial-killers-dataset?resource=download)
